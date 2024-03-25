@@ -1,0 +1,89 @@
+.card {
+    height: 100%; /* Altezza predefinita della card */
+  }
+  
+  .card-body {
+    height: 100%; /* Altezza massima della card body */
+  }
+  
+  .card-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Mostra solo 3 righe */
+    -webkit-box-orient: vertical;
+  }
+  
+  .card-img-top {
+    height: 200px; /* Altezza predefinita dell'immagine */
+    object-fit: cover; /* Riempi lo spazio mantenendo le proporzioni */
+  }
+
+.body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: 20px auto;
+  }
+  
+
+  .card h2 {
+    margin-top: 0;
+  }
+  
+  .card p {
+    margin-bottom: 10px;
+  }
+  
+  .like-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .like-btn:hover {
+    background-color: #0056b3;
+  }
+  .navbar {
+    background: linear-gradient(to bottom, #093f79, #ffffff); /* Sfondo che sfuma dal blu al bianco */
+    overflow: hidden;
+}
+
+.button {
+    background: linear-gradient(to top, #95b5d8, #ffffff); /* Sfondo che sfuma dal blu al bianco */
+border-color: #cbdae9;
+
+}
+
+
+.navbar h1 {
+    font-size: 39px; /* Dimensione del titolo */
+    color: white; /* Colore del testo bianco */
+    padding: 20px; /* Spaziatura interna */
+    margin: 0; /* Rimuove il margine esterno */
+    text-align: left; /* Allineamento a destra */
+}
+
+.h1 {
+  font-size: 28px; /* Dimensione grande */
+  color: white; /* Colore bianco */
+  
+}
+
+.h2 {
+    font-size: 9px; /* Dimensione grande */
+    color: white; /* Colore bianco */
+    
+  }
+
+
+.navbar .navbar-content {
+    background-color: transparent;
+}

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>newse</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#"><h1>Your Daily News</h1></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarScroll">
+        <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+          <li class="nav-item">
+            <a class="nav-link active" style="font-weight: 600; font-size: larger;" aria-current="page" href="SavedNews.html">Notizie Salvate</a>
+          </li>
+          <li class="nav-item">
+            <button class="btn btn-lg btn-trasparent btn-block"  style="margin-top: 8%; color: aliceblue;" id="tech" onclick="searchTech()">Tecnologia</button>
+          </li>
+          <li class="nav-item">
+            <button class="btn btn-lg btn-trasparent btn-block" style="margin-top: 11%; color: aliceblue;" id="sport" onclick="searchSport()">Sport</button>
+          </li>
+          <li class="nav-item">
+            <button class="btn btn-lg btn-trasparentbtn-block" style="margin-top: 9%;  color: aliceblue;" id="business" onclick="searchBusi()">Business</button>
+          </li>
+        </ul>
+        <form class="d-flex" role="search" style="margin-left: 5%;">
+          <input class="form-control me-2" style="padding-left: 10%;"  type="search" placeholder="Search" aria-label="Search" id="txtsearch">
+              <button class="btn btn-outline-primary" type="submit" id="btnsearch" style="margin-left: 5%;"><h6>Cerca</h2></button>
+      </div>
+    </div>
+  </nav>
+  <div class="form-container" style="margin-left: 10px;">
+    <form class="d-flex">
+      <select id="countrySelect" class="form-select">
+        <option value="">Select a Country</option>
+        <option value="it">Italy</option>
+        <option value="fr">France</option>
+        <option value="de">Germany</option>
+        <option value="gb">United Kingdom</option>
+        <option value="us">United States</option>
+        <option value="cn">China</option>
+        <option value="jp">Japan</option>
+        <option value="in">India</option>
+        <option value="es">Spain</option>
+        <option value="mx">Mexico</option>
+        <option value="ca">Canada</option>
+        <option value="br">Brazil</option>
+        <option value="ru">Russia</option>
+        <option value="au">Australia</option>
+        <option value="ar">Argentina</option>
+        <option value="za">South Africa</option>
+        <option value="eg">Egypt</option>
+        <option value="ng">Nigeria</option>
+        <option value="id">Indonesia</option>
+        <option value="ch">Switzerland</option>
+      </select>
+  
+    </form>
+  </div>
+
+  <button class="button btn-lg btn-primary btn-block"  style="margin-top: 3%; color: aliceblue;" id="news" onclick="search()">Notizie</button>
+
+  <div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+            </div>
+        </div>
+        <div class="col-md-4 offset-md-4">
+            <!-- Bottone "Mostra Notizie" centrato -->
+            <form class="d-flex" role="search">
+            </form>
+        </div>
+    </div>
+    <div id="newsResults" class="row mt-4"></div>
+</div>
+
+
+<div class="container-fluid">
+  <table class="table">
+    <tbody id="newsTableBody">
+     
+    </tbody>
+  </table>
+</div>
+
+<script>
+   document.addEventListener('DOMContentLoaded', function () {
+      const newsTableBody = document.getElementById('newsTableBody');
+      const btnSearch = document.getElementById('btnsearch'); 
+      const txtSearch = document.getElementById('txtsearch');
+
+      function populateNewsTable(articles) {
+        newsTableBody.innerHTML = '';
+
+        if (Array.isArray(articles)) {
+          articles.forEach(article => {
+            const row = document.createElement('tr');
+            const cell = document.createElement('td');
+            cell.innerHTML = `
+              <div class="card" style="width: 26rem; height: 32rem">
+                <img class="card-img-top" src="${article.urlToImage}" alt="Immagine">
+                <div class="card-body">
+                  <h5 class="card-title">${article.title}</h5>
+                  <p class="card-text">${article.description}</p>
+                  <button class="btn btn-primary save-btn">Salva</button>
+                </div>
+              </div>
+            `;
+            row.appendChild(cell);
+            newsTableBody.appendChild(row);
+          });
+        } else {
+
+          const row = document.createElement('tr');
+          const cell = document.createElement('td');
+          cell.textContent = 'Nessuna notizia disponibile.';
+          row.appendChild(cell);
+          newsTableBody.appendChild(row);
+        }
+      }
+
+        btnSearch.addEventListener('click', function () {
+          const selectedCountry = document.getElementById('countrySelect').value;
+          const searchText = txtSearch.value.trim();
+                             
+        fetch(`https://newsapi.org/v2/top-headlines?country=${selectedCountry}&q=${searchText}&apiKey=c9f9481888ce40cb852f74a2549c1503`)
+        .then(response => response.json())
+      .then(data => {
+        if (data.status === "ok" && data.articles) {
+          populateNewsTable(data.articles);
+        } else {
+          console.error('Risposta API non valida:', data);
+          populateNewsTable([]);
+        }
+      })
+      .catch(error => {
+        console.error('Errore nel recupero delle notizie:', error);
+        populateNewsTable([]);
+      });
+        });
+      });
+</script>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"  integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"></script>
+  <script src="script.js"></script>
+</body>
+</html>
